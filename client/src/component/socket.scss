@@ -1,0 +1,41 @@
+.chat_wrapper {
+  margin-top: 10px;
+  list-style-type: none;
+  width: 100vw;
+  height: 50vh;
+  border: 1px solid black;
+
+  display: flex;
+  justify-content: center;
+  .chat_window {
+    height: 100%;
+    width: 500px;
+    border: 1px solid blue;
+    background-color: #676767;
+    .chat_ul {
+      list-style-type: none;
+      height: 100%;
+
+      .toRight {
+        text-align: right;
+      }
+      .chatmsg {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        .avatar {
+          width: 40px;
+          height: 40px;
+        }
+        .chatspan {
+          border: 1px solid red;
+          padding: 8px 5px;
+          border-radius: 10px;
+          margin-bottom: 3px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
