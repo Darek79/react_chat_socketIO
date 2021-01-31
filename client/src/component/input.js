@@ -17,16 +17,6 @@ export default ({
   modus,
   id,
 }) => {
-  // const [input, setInput] = useState("");
-
-  // useEffect(() => {
-  //   setInput(() => "");
-  // }, [fnClear]);
-
-  // const onInput = (e) => {
-  //   setInput(() => e.target.value);
-  // };
-
   return (
     <Fragment>
       {modus ? (

@@ -46,9 +46,10 @@ app.get("/", (req, res, next) => {
 io.on("connection", (socket) => {
   //console.log(socket);
   socket.on("msg", (arg) => {
-    io.emit("chat", {
-      chatText: arg,
-    });
+    io.emit("chat", arg);
+  });
+  socket.once("userEntry", (arg) => {
+    io.emit("userIn", arg);
   });
 });
 

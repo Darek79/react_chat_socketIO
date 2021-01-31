@@ -13,7 +13,7 @@ export const ChatMsg = ({
         alt="avatar"
       />
       <span className="username">{username}</span>
-      <span className="chatmsg">{message}</span>
+      <div className="chatmsg">{message}</div>
     </div>
   </li>
 );

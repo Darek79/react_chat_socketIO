@@ -1,13 +1,15 @@
 .chatmsg_wrapper {
   padding: 5px;
-
-  width: 300px;
-  background-color: white;
+  color: white;
+  width: 100%;
+  background-color: #333333;
   border-radius: 10px;
+  word-wrap: break-word;
+  margin-bottom: 10px;
   .chat_item {
     display: grid;
     grid-template-rows: 50px auto;
-    grid-template-columns: 60px auto;
+    grid-template-columns: 60px 200px;
     .avatar_img {
       grid-row: 1;
       align-self: center;
@@ -16,7 +18,7 @@
       height: 50px;
     }
     .username {
-      align-self: end;
+      align-self: center;
       font-weight: bold;
     }
     .chatmsg {

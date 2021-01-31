@@ -8,6 +8,7 @@ import React, {
 import {v4} from "uuid";
 import {ChatWindow} from "./chat_window";
 import {ChatInput} from "./chat_Input";
+import {ChatUserList} from "./chat_user_list";
 import {
   useLocation,
   Link,
@@ -20,74 +21,97 @@ const socket = io("http://localhost:5000", {
 });
 
 import "./../styles/socket.scss";
+
 export const Chat = (props) => {
-  const [input, setInput] = useState([]);
+  const [chat, setChat] = useState([]);
+  const [input, setInput] = useState({});
+  const [users, setUsers] = useState([]);
   const myText = useRef(null);
   const myIdRef = useRef(v4());
   const myMsgId = useRef(0);
   const myChatName = useRef(null);
+  const loadRef = useRef(false);
 
   const setTxtFn = useCallback((e) => {
-    if (e.key === "Enter" && input.length === 0) {
+    if (e.key === "Enter") {
       console.log("1");
-      setInput(() => [
-        {
-          msg: myText.current.textContent,
-          timestamp: Math.floor(Date.now()),
-          id: `${Date.now()}${myMsgId.current++}`,
-          name: myChatName.current,
-        },
-      ]);
-      myIdRef.current = v4();
-    }
-
-    if (e.key === "Enter" && input.length > 0) {
-      console.log("1");
-      setInput((p) => [
-        ...p,
-        {
-          msg: myText.current.textContent,
-          timestamp: Math.floor(Date.now()),
-          id: `${Date.now()}${myMsgId.current++}`,
-          name: myChatName.current,
-        },
-      ]);
+      setInput(() => ({
+        msg: myText.current.textContent,
+        timestamp: Math.floor(Date.now()),
+        id: `${Date.now()}${myMsgId.current++}`,
+        name: myChatName.current.name,
+        avt: myChatName.current.avatar,
+      }));
       myIdRef.current = v4();
     }
   });
 
+  // const cb = (msg) => {
+  //   setChat((p) => [...p, msg]);
+  //   console.log(msg);
+  // };
+  const cb = useCallback(
+    (msg) => {
+      setChat((p) => [...p, msg]);
+      console.log(msg);
+    },
+    [setChat]
+  );
+  const cbUsers = useCallback(
+    (msg) => {
+      setUsers((p) => [...p, msg]);
+      console.log(msg, "user msg");
+    },
+    [setUsers]
+  );
+
   useEffect(() => {
     myChatName.current = JSON.parse(
       localStorage.getItem("profile")
-    ).name;
+    );
+    if (input && loadRef.current === true) {
+      console.log("input");
+      socket.emit("msg", input);
+    }
+    console.log(socket);
+  }, [input]);
+  useEffect(() => {
     if (
-      input.length > 0 &&
-      input[input.length - 1].name ===
-        myChatName.current
+      !loadRef.current &&
+      myChatName.current.name
     ) {
       socket.emit(
-        "msg",
-        input[input.length - 1]
+        "userEntry",
+        myChatName.current.name
       );
+      socket.on("userIn", cbUsers);
     }
+  }, []);
+  useEffect(() => {
+    socket.on("chat", cb);
+    if (!loadRef.current) {
+      loadRef.current = true;
+    }
+    return () => socket.off("chat", cb);
+  }, []);
 
-    socket.on("chat", (msg) => {
-      const {chatText} = msg;
-      console.log(`${chatText} chat`);
-      setInput((p) => [...p, chatText]);
-    });
-  }, [input]);
-  // useEffect(() => {}, []);
+  // (msg) => {
+  //   console.log(msg, "---msg");
+  //   // const {chatText} = msg;
+  //   // console.log(`${chatText} chat`);
+  //   // setChat((p) => [...p, chatText]);
+  // }
+
   return (
     <section className="chat_wrapper">
-      <Link to="/">link</Link>
-      <ChatWindow msg={input} />
+      {console.log(users.length > 0 && users)}
+      <ChatUserList msg={users} />
+      <ChatWindow msg={chat} />
       <ChatInput
         myText={myText}
         myIdRef={myIdRef}
         fnGet={setTxtFn}
       />
-      {console.log(input)}
     </section>
   );
 };
