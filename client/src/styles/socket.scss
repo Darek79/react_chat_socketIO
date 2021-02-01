@@ -3,7 +3,7 @@
   width: 100vw;
   display: grid;
   grid-template-rows: auto minmax(auto, 40px);
-  grid-template-columns: 40vh auto;
+  grid-template-columns: 1fr 60vw 1fr;
   background-color: #292929;
   .chat_user_list {
     grid-row: 1;
@@ -26,22 +26,22 @@
   }
   .chat_window {
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 2/3;
     min-height: 50vh;
-    justify-self: center;
-    width: 50%;
+    justify-self: left;
+    width: 100%;
     background-color: #333333;
     overflow-y: scroll;
     padding: 5px;
   }
   .chat_input {
-    justify-self: center;
+    justify-self: left;
     height: auto;
 
     overflow-y: scroll;
-    width: 50%;
+    width: 100%;
     grid-row: 2;
-    grid-column: 2;
+    grid-column: 2/3;
     padding: 5px;
     background-color: #474747;
     .chatmod_input {
@@ -49,6 +49,27 @@
       line-height: 2;
       background-color: #474747;
       color: white;
+    }
+  }
+  .logout {
+    grid-column: 3;
+    grid-row: 1;
+    color: white;
+
+    .logout_btn {
+      width: 100px;
+      margin-left: auto;
+      position: relative;
+      top: 20px;
+      left: -20px;
+
+      text-align: center;
+      padding: 5px 10px;
+      border: 2px solid white;
+      background-color: #474747;
+    }
+    .logout_btn {
+      cursor: pointer;
     }
   }
 }

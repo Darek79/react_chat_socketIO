@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const server = require("http").createServer(app);
@@ -41,16 +42,34 @@ app.use(compression());
 app.get("/", (req, res, next) => {
   res.status(200).json({msg: "ok"});
 });
-
+let users = 0;
+let arr = [];
 // server-side
 io.on("connection", (socket) => {
-  //console.log(socket);
+ 
   socket.on("msg", (arg) => {
     io.emit("chat", arg);
   });
-  socket.once("userEntry", (arg) => {
-    io.emit("userIn", arg);
+  socket.on("userEntry", (arg) => {
+    if (!JSON.stringify(arr).includes(arg.name)) {
+      arr.push(arg);
+    }
+    io.emit("userIn", arr);
+  });
+  socket.on("logout", (arg) => {
+    
+    let index = arr.findIndex(
+      (el) => el.name === arg.name
+    );
+    arr.splice(index, 1);
+    socket.broadcast.emit("userLeft", arr);
   });
 });
 
 server.listen(5000, () => "server is up");
+
+server.on("SIGTERM", () => {
+  server.close(() =>
+    console.log("process terminated")
+  );
+});
