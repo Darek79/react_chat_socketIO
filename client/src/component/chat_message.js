@@ -1,8 +1,19 @@
-export const ChatMsg = ({avatar, message = "message message message"}) => (
-  <li className="chatmsg">
-    <span>
-      <img className="avatar" src={avatar} alt="avatar" />
-    </span>
-    <span className="chatspan">{message}</span>
+import "./../styles/chatmsg.scss";
+
+export const ChatMsg = ({
+  avatar,
+  username,
+  message = "Nulla consectetur fringilla nulla",
+}) => (
+  <li className="chatmsg_wrapper">
+    <div className="chat_item">
+      <img
+        className="avatar_img"
+        src={avatar}
+        alt="avatar"
+      />
+      <span className="username">{username}</span>
+      <span className="chatmsg">{message}</span>
+    </div>
   </li>
 );

@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const server = require("http").createServer(app);
+const path = require("path");
+// const fs = require("fs");
 const options = {
   maxHttpBufferSize: 1e8,
   cors: {
@@ -10,6 +12,9 @@ const options = {
     methods: ["GET", "POST"],
   },
 };
+//path to Images
+// const imagesPath = path.dirname(__dirname, "socket_io", "public", "assets");
+// console.log(fs.existsSync(imagesPath));
 
 const io = require("socket.io")(server, options);
 const compression = require("compression");
@@ -23,6 +28,12 @@ app.use("*", cors());
 //   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 //   next();
 // });
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    etag: true,
+    maxAge: 120000,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(compression());
@@ -30,6 +41,7 @@ app.use(compression());
 app.get("/", (req, res, next) => {
   res.status(200).json({msg: "ok"});
 });
+
 // server-side
 io.on("connection", (socket) => {
   //console.log(socket);
