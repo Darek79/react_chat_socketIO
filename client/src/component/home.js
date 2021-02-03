@@ -3,6 +3,7 @@ import React, {
   useState,
   useRef,
   useEffect,
+  useCallback,
 } from "react";
 import {
   NavLink,
@@ -33,6 +34,7 @@ export const Home = () => {
       history.push("/chat");
     }
   }, []);
+
   const onEmail = (e) => {
     setEmail(() => e.target.value);
   };
@@ -55,6 +57,7 @@ export const Home = () => {
             fnClear={clear}
             valProp={email}
             fnGet={onEmail}
+            modus={true}
           />
           <label
             htmlFor="username"
@@ -67,6 +70,7 @@ export const Home = () => {
             fnClear={clear}
             fnGet={onUser}
             valProp={user}
+            modus={true}
           />
           <NavLink
             to={{
@@ -82,16 +86,6 @@ export const Home = () => {
               name="submit"
               value="Submit"></input>
           </NavLink>
-          {/* {clear ? (
-            <Redirect
-              to={{
-                pathname: "/chat",
-                state: {
-                  username: userRef.current.value,
-                },
-              }}
-            />
-          ) : undefined} */}
         </div>
       </div>
     </section>

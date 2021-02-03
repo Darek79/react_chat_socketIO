@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   Fragment,
+  memo,
 } from "react";
 import {isEmail} from "validator";
 export default ({
@@ -14,6 +15,7 @@ export default ({
   fnKey,
   valProp,
   modus,
+  id,
 }) => {
   // const [input, setInput] = useState("");
 
@@ -37,15 +39,12 @@ export default ({
           name={name}
           value={valProp}></input>
       ) : (
-        <textarea
+        <div
+          key={id}
           ref={valref}
           onKeyPress={fnKey}
-          onChange={fnGet}
           className={clName}
-          type={type}
-          name={name}
-          rows={1}
-          value={valProp}></textarea>
+          contentEditable={true}></div>
       )}
     </Fragment>
   );

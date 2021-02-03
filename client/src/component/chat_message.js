@@ -3,7 +3,7 @@ import "./../styles/chatmsg.scss";
 export const ChatMsg = ({
   avatar,
   username,
-  message = "Nulla consectetur fringilla nulla",
+  message,
 }) => (
   <li className="chatmsg_wrapper">
     <div className="chat_item">

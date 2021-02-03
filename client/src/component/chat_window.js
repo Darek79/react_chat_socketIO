@@ -19,20 +19,17 @@ export const ChatWindow = ({msg = [0], avt}) => {
   return (
     <section className="chat_window">
       <ul className="chat_ul">
-        {msg.map((el, i) => {
-          {
-            /* console.log(el.id);
-        console.log(avt[el.id - 1].img); */
-          }
-          return (
-            <ChatMsg
-              key={i}
-              message={msg}
-              avatar={imgArr[avatar]}
-              username={name}
-            />
-          );
-        })}
+        {msg &&
+          msg.map((el, i) => {
+            return (
+              <ChatMsg
+                key={i}
+                message={el.msg}
+                avatar={imgArr[avatar]}
+                username={name}
+              />
+            );
+          })}
       </ul>
     </section>
   );

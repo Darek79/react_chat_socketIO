@@ -38,11 +38,12 @@
     }
   }
   .chat_input {
+    border: 1px solid black;
+    z-index: 2;
     width: auto;
     position: absolute;
     bottom: 20px;
     .chatmod_input {
-      resize: none;
       width: 400px;
       padding: 5px 5px;
       outline-width: 0;
