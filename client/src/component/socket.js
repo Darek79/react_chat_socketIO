@@ -50,24 +50,11 @@ export const Chat = () => {
     }
   });
 
-  const removeUser = useCallback(() => {
-    setLeave(true);
-  }, [setLeave]);
+  const removeUser = () => setLeave(true);
 
-  const cb = useCallback(
-    (msg) => {
-      setChat((p) => [...p, msg]);
-    },
-    [setChat]
-  );
-  const cbUsers = useCallback(
-    (msg) => {
-      console.log(msg);
-      setUsers(() => msg);
-      console.log("add msg");
-    },
-    [setUsers]
-  );
+  const cb = (msg) => setChat((p) => [...p, msg]);
+
+  const cbUsers = (msg) => setUsers(() => msg);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -118,13 +105,6 @@ export const Chat = () => {
     }
     isLoadedRef.current = true;
   }, [isConnected]);
-
-  // (msg) => {
-  //   //console.log(msg, "---msg");
-  //   // const {chatText} = msg;
-  //   // //console.log(`${chatText} chat`);
-  //   // setChat((p) => [...p, chatText]);
-  // }
 
   return (
     <section className="chat_wrapper">
